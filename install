@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+ 
+if [ ! -f install ]; then
+    echo 'install must be run within its container folder'
+    1>&2
+    exit 1
+fi
+
+case $1 in
+    '')
+        echo "please input the project name that you want to install..."
+        echo "example: ./install main"
+        exit 1;;
+    *)
+        echo "working...";;
+esac
+ 
+PRO_NAME=$1
+CURDIR=`pwd`
+OLDGOPATH="$GOPATH"
+export GOPATH="$CURDIR"
+ 
+gofmt -w src
+ 
+go install $PRO_NAME
+ 
+export GOPATH="$OLDGOPATH"
+
+echo 'finished'
